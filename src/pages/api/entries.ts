@@ -26,7 +26,7 @@ export const POST: APIRoute = async ({ request }) => {
       const imageStore = await getStore("garden-images");
       const imageKey = `${Date.now()}-${image.name}`;
       await imageStore.set(imageKey, image);
-      imageUrl = `/images/${imageKey}`;
+      imageUrl = `/uploads/${imageKey}`;
     }
 
     // Create journal entry
