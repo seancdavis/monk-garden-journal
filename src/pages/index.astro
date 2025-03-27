@@ -1,25 +1,27 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getStore } from '@netlify/blobs';
+import Layout from "../layouts/Layout.astro";
+import { getStore } from "@netlify/blobs";
 
 // Get journal entries
-const journalStore = await getStore('journal-entries');
+const journalStore = await getStore("journal-entries");
 const entries = await journalStore.list();
 
 // Get the actual entries content
 const entryContents = await Promise.all(
-  entries.blobs.map(async (blob) => {
-    const content = await journalStore.get(blob.key);
-    return {
-      key: blob.key,
-      content: content ? await content.json() : null
-    };
-  })
+  entries.blobs
+    .map(async (blob) => {
+      const content = await journalStore.get(blob.key);
+      if (!content) {
+        return null;
+      }
+      return { key: blob.key, content: JSON.parse(content) };
+    })
+    .filter(Boolean)
 );
 
 // Sort entries by date (newest first)
 const sortedEntries = entryContents
-  .filter(entry => entry.content)
+  .filter((entry) => entry.content)
   .sort((a, b) => new Date(b.content.date) - new Date(a.content.date));
 ---
 
@@ -38,7 +40,9 @@ const sortedEntries = entryContents
       sortedEntries.map(({ content }) => (
         <article class="bg-white p-6 rounded-lg shadow-md">
           <div class="flex justify-between items-start mb-4">
-            <h2 class="text-xl font-semibold text-green-800">{content.title}</h2>
+            <h2 class="text-xl font-semibold text-green-800">
+              {content.title}
+            </h2>
             <time class="text-sm text-gray-500">
               {new Date(content.date).toLocaleDateString()}
             </time>

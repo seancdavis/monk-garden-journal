@@ -1,46 +1,32 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getStore } from '@netlify/blobs';
+import Layout from "../layouts/Layout.astro";
 
-if (Astro.request.method === 'POST') {
-  try {
-    const formData = await Astro.request.formData();
-    const title = formData.get('title');
-    const notes = formData.get('notes');
-    const image = formData.get('image');
-    
-    // Handle image upload
-    let imageUrl = null;
-    if (image instanceof File && image.size > 0) {
-      const imageStore = await getStore('garden-images');
-      const imageKey = `${Date.now()}-${image.name}`;
-      await imageStore.set(imageKey, image);
-      imageUrl = `/images/${imageKey}`;
-    }
-
-    // Create journal entry
-    const journalStore = await getStore('journal-entries');
-    const entryKey = Date.now().toString();
-    const entry = {
-      title,
-      notes,
-      date: new Date().toISOString(),
-      imageUrl
-    };
-    
-    await journalStore.set(entryKey, JSON.stringify(entry));
-    return Astro.redirect('/');
-  } catch (error) {
-    console.error('Error saving entry:', error);
-  }
-}
+// Get error message from URL if present
+const errorMessage = Astro.url.searchParams.get("error");
 ---
 
 <Layout title="New Garden Journal Entry">
   <div class="max-w-2xl mx-auto">
-    <h1 class="text-2xl font-bold text-green-800 mb-6">New Garden Journal Entry</h1>
-    
-    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+    <h1 class="text-2xl font-bold text-green-800 mb-6">
+      New Garden Journal Entry
+    </h1>
+
+    {
+      errorMessage && (
+        <div
+          class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6"
+          role="alert">
+          <p>{errorMessage}</p>
+        </div>
+      )
+    }
+
+    <form
+      action="/api/entries"
+      method="POST"
+      enctype="multipart/form-data"
+      class="space-y-6"
+    >
       <div>
         <label for="title" class="block text-sm font-medium text-gray-700 mb-1">
           Title
