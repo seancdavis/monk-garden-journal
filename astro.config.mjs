@@ -1,12 +1,7 @@
-export default {
-  site: 'https://your-site-url.netlify.app',
-  integrations: [
-    // Add any necessary integrations here
-  ],
-  markdown: {
-    // Markdown options can be configured here
-  },
-  buildOptions: {
-    // Build options can be configured here
-  },
-};
+import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
+
+export default defineConfig({
+  integrations: [tailwind()],
+  output: 'server'
+});

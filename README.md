@@ -1,79 +1,48 @@
-# Garden Journal
+# Astro Starter Kit: Basics
 
-Welcome to the Garden Journal project! This application allows users to document their gardening experiences by adding journal entries with photographs. Entries are displayed in reverse chronological order, making it easy to track your gardening journey.
-
-## Features
-
-- Add new journal entries with text and images.
-- View all journal entries in reverse chronological order.
-- Responsive design using Tailwind CSS.
-- Utilizes Netlify blob storage for storing journal entries and images.
-
-## Project Structure
-
-```
-garden-journal
-├── src
-│   ├── components
-│   │   ├── EntryForm.astro
-│   │   ├── EntryList.astro
-│   │   └── Header.astro
-│   ├── layouts
-│   │   └── MainLayout.astro
-│   ├── pages
-│   │   ├── index.astro
-│   │   └── new-entry.astro
-│   ├── styles
-│   │   └── tailwind.css
-│   └── utils
-│       └── netlifyBlob.ts
-├── public
-│   └── favicon.ico
-├── astro.config.mjs
-├── tailwind.config.js
-├── package.json
-├── tsconfig.json
-└── README.md
+```sh
+npm create astro@latest -- --template basics
 ```
 
-## Getting Started
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
+[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
 
-To get started with the Garden Journal project, follow these steps:
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-1. **Clone the repository:**
-   ```
-   git clone <repository-url>
-   cd garden-journal
-   ```
+![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
 
-2. **Install dependencies:**
-   ```
-   npm install
-   ```
+## 🚀 Project Structure
 
-3. **Run the development server:**
-   ```
-   npm run dev
-   ```
+Inside of your Astro project, you'll see the following folders and files:
 
-4. **Open your browser and navigate to:**
-   ```
-   http://localhost:3000
-   ```
+```text
+/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── layouts/
+│   │   └── Layout.astro
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
 
-## Usage
+To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 
-- Navigate to the **Home** page to view existing journal entries.
-- Click on **New Entry** to add a new journal entry with text and an image.
+## 🧞 Commands
 
-## Deployment
+All commands are run from the root of the project, from a terminal:
 
-This project is designed to be deployed on Netlify. Follow the Netlify documentation for instructions on deploying your Astro application.
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## Contributing
+## 👀 Want to learn more?
 
-Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
-
-## License
-
-This project is open-source and available under the MIT License.
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

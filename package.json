@@ -1,28 +1,19 @@
 {
   "name": "garden-journal",
-  "version": "1.0.0",
-  "description": "A garden journal application for tracking entries and photographs.",
-  "main": "index.js",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.0.0",
-    "tailwindcss": "^3.0.0",
-    "postcss": "^8.0.0",
-    "autoprefixer": "^10.0.0"
-  },
-  "devDependencies": {
-    "typescript": "^4.0.0"
-  },
-  "keywords": [
-    "garden",
-    "journal",
-    "astro",
-    "tailwindcss"
-  ],
-  "author": "Your Name",
-  "license": "MIT"
+    "@astrojs/tailwind": "^5.1.0",
+    "@netlify/blobs": "^6.4.2",
+    "@netlify/functions": "^2.6.0",
+    "astro": "^5.2.5",
+    "tailwindcss": "^3.4.1"
+  }
 }
