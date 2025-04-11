@@ -2,7 +2,14 @@ import type { APIRoute } from "astro";
 import { getStore } from "@netlify/blobs";
 
 export const GET: APIRoute = async ({ params }) => {
-  const imageStore = await getStore("garden-images");
+  if (!params.key) {
+    return new Response("Image key is required", { status: 400 });
+  }
+
+  const imageStore = await getStore({
+    name: "garden-images",
+    consistency: "strong",
+  });
   const image = await imageStore.get(params.key, { type: "stream" });
 
   if (!image) {

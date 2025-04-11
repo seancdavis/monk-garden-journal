@@ -1,28 +1,40 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { getStore } from "@netlify/blobs";
+import type { JournalEntry } from "../types";
 
 // Get journal entries
-const journalStore = await getStore("journal-entries");
+const journalStore = await getStore({
+  name: "journal-entries",
+  consistency: "strong",
+});
 const entries = await journalStore.list();
 
 // Get the actual entries content
-const entryContents = await Promise.all(
-  entries.blobs
-    .map(async (blob) => {
-      const content = await journalStore.get(blob.key);
-      if (!content) {
-        return null;
-      }
-      return { key: blob.key, content: JSON.parse(content) };
-    })
-    .filter(Boolean)
-);
+const entryContents: Array<{ key: string; content: JournalEntry }> =
+  await Promise.all(
+    entries.blobs
+      .map(async (blob) => {
+        const contentStr = await journalStore.get(blob.key);
+        if (!contentStr) {
+          return null;
+        }
+        const content = JSON.parse(contentStr) as JournalEntry;
+        return { key: blob.key, content };
+      })
+      .filter(Boolean) as Array<Promise<{ key: string; content: JournalEntry }>>
+  );
 
 // Sort entries by date (newest first)
 const sortedEntries = entryContents
-  .filter((entry) => entry.content)
-  .sort((a, b) => new Date(b.content.date) - new Date(a.content.date));
+  .filter((entry) => entry?.content)
+  .sort((a, b) => {
+    if (!b || !b.content || !b.content.date) return 1;
+    if (!a || !a.content || !a.content.date) return -1;
+    return (
+      new Date(b.content.date).getTime() - new Date(a.content.date).getTime()
+    );
+  });
 ---
 
 <Layout title="Garden Journal">
