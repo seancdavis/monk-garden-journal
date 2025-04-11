@@ -1,0 +1,5 @@
+REPO monk-copilot-test
+LOAD monk-copilot-test.yaml 
+ENTRY monk-copilot-test/stack
+SECRET default-netlify-pat
+BLOBS garden-journal:.

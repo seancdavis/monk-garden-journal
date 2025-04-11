@@ -1,0 +1,54 @@
+namespace: monk-copilot-test
+
+garden-journal-site:
+  defines: netlify/site
+  name: monk-monk-copilot-test-nl6
+  force_ssl: false
+  secret_ref: default-netlify-pat
+  permitted-secrets:
+    default-netlify-pat: true
+  services:
+    data:
+      protocol: custom
+      container: main
+
+garden-journal:
+  defines: runnable
+  inherits: netlify/deploy
+  containers:
+    deploy:
+      paths:
+        - "blobs://garden-journal:/home/node/app"
+  variables:
+    deploy-dir: dist
+    site-id: <- connection-target("site") entity-state get-member("id")
+    pre-deploy: |
+      rm -rf node_modules
+      yarn install
+      yarn run build
+      
+    netlify-blobs:
+      type: string
+      env: "@netlify/blobs"
+      description: Netlify Blobs package used for handling blob storage in the application.
+      value: ''
+    netlify-functions:
+      type: string
+      env: "@netlify/functions"
+      description: Netlify Functions package used for serverless functions in the application.
+      value: ''
+  connections:
+    site:
+      target: monk-copilot-test/garden-journal-site
+      service: data
+  depends:
+    wait-for:
+      runnables:
+        - monk-copilot-test/garden-journal-site
+
+stack:
+  defines: group
+  members:
+    - monk-copilot-test/garden-journal-site
+    - monk-copilot-test/garden-journal
+
